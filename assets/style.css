@@ -1,0 +1,147 @@
+/* ===== 基本の色と文字 ===== */
+:root {
+  --bg: #f6f6f4;        /* 背景：薄いグレー */
+  --paper: #ffffff;     /* 記事部分：白 */
+  --text: #2b2b2b;      /* 文字：濃いグレー */
+  --muted: #6b6b6b;     /* 補足の文字 */
+  --line: #dddddb;      /* 区切り線 */
+  --accent: #b03a2e;    /* アクセントカラー（1色だけ） */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 16px;
+  line-height: 1.85;
+  overflow-wrap: anywhere; /* 長いURLでも横にはみ出さない */
+}
+
+a { color: var(--accent); }
+a:hover { text-decoration: none; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+.wrap {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ===== 上部のお知らせ帯 ===== */
+.notice {
+  background: var(--text);
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  padding: 6px 16px;
+  line-height: 1.5;
+}
+
+/* ===== ヘッダー ===== */
+.site-header {
+  background: var(--paper);
+  border-bottom: 3px solid var(--accent);
+}
+.site-header .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 20px;
+  padding-top: 18px;
+  padding-bottom: 14px;
+}
+.site-title {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 20px;
+  text-decoration: none;
+  line-height: 1.4;
+}
+.site-nav { display: flex; gap: 16px; font-size: 14px; }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover { color: var(--accent); }
+
+main.wrap { padding-top: 28px; padding-bottom: 48px; }
+
+/* ===== トップの写真 ===== */
+.hero figure { margin: 0 0 12px; }
+.hero img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+figcaption {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.lead { font-size: 15px; color: var(--muted); margin: 16px 0 32px; }
+
+/* ===== レポート一覧 ===== */
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+  margin: 0;
+}
+.post-list ul { list-style: none; margin: 0; padding: 0; }
+.post-item { padding: 20px 0; border-bottom: 1px solid var(--line); }
+.post-item time { font-size: 13px; color: var(--muted); }
+.post-item h3 { font-size: 18px; margin: 2px 0 6px; line-height: 1.5; }
+.post-item h3 a { color: var(--text); text-decoration: none; }
+.post-item h3 a:hover { color: var(--accent); }
+.summary { margin: 0; font-size: 14px; color: var(--muted); }
+
+/* ===== レポート本文 ===== */
+.post { background: var(--paper); padding: 24px 20px 32px; border: 1px solid var(--line); }
+.back { margin: 0 0 16px; font-size: 14px; }
+.post-header time { font-size: 13px; color: var(--muted); }
+.post-header h1 { font-size: 26px; line-height: 1.4; margin: 4px 0 12px; }
+.ai-note {
+  font-size: 13px;
+  color: var(--muted);
+  border-left: 3px solid var(--accent);
+  padding: 4px 0 4px 12px;
+  margin: 0 0 8px;
+}
+.post-body h2 {
+  font-size: 19px;
+  margin: 32px 0 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.post-body h3 { font-size: 16px; margin: 20px 0 6px; }
+.post-body ul, .post-body ol { padding-left: 1.4em; }
+.post-body li { margin-bottom: 8px; }
+
+/* ===== このサイトについて ===== */
+.page { background: var(--paper); padding: 24px 20px 32px; border: 1px solid var(--line); }
+.page h1 { font-size: 24px; margin-top: 0; }
+.page h2 { font-size: 18px; margin-top: 32px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+.portrait { max-width: 240px; margin: 8px 0 16px; }
+
+/* ===== フッター ===== */
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 13px;
+  color: var(--muted);
+  padding: 20px 0 28px;
+}
+.disclaimer { margin: 0 0 8px; padding-left: 1.2em; }
+.footer-links { margin: 0; }
+
+/* ===== スマホ ===== */
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .site-title { font-size: 17px; }
+  .post, .page { padding: 18px 14px 24px; }
+  .post-header h1 { font-size: 22px; }
+}

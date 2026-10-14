@@ -1,0 +1,29 @@
+---
+layout: default
+---
+<section class="hero">
+  <figure>
+    <img src="{{ '/assets/img/falcon-heavy-launch.jpg' | relative_url }}" alt="ロケット Falcon Heavy の打ち上げの様子" width="1280" height="853">
+    <figcaption>
+      写真：Falcon Heavy Demo Mission ／ 作者：SpaceX ／ ライセンス：<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ja">CC0</a> ／
+      出典：<a href="https://commons.wikimedia.org/wiki/File:Falcon_Heavy_Demo_Mission_%2840126461851%29.jpg">Wikimedia Commons</a>
+    </figcaption>
+  </figure>
+  <p class="lead">{{ site.description }}</p>
+</section>
+
+<section class="post-list">
+  <h2 class="section-title">レポート一覧</h2>
+  {% if site.posts.size == 0 %}
+    <p>まだレポートはありません。</p>
+  {% endif %}
+  <ul>
+    {% for post in site.posts %}
+    <li class="post-item">
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日 %H:%M" }}</time>
+      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <p class="summary">{{ post.content | strip_html | strip_newlines | replace: "主な投稿", "" | strip | truncate: 110 }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+</section>

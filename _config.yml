@@ -1,0 +1,23 @@
+# サイト全体の設定ファイル（Jekyll が最初に読む）
+title: "マスク氏 X 投稿ダイジェスト（練習用）"
+description: "イーロン・マスク氏の X での投稿を、AI（Grok）が3時間おきに日本語で要約する練習用サイトです。"
+lang: ja
+locale: ja_JP
+timezone: Asia/Tokyo
+
+# GitHub Pages のURL（https://ユーザー名.github.io/musk-x-digest/）に合わせる
+baseurl: "/musk-x-digest"
+url: ""
+
+markdown: kramdown
+future: true  # 日付が少し先のレポートも表示する（公開のタイミングずれ対策）
+permalink: /:year/:month/:day/:title/
+
+# サイトに含めないファイル
+exclude:
+  - README.md
+  - 進捗記録.md
+  - 指示書_ClaudeCode.md
+  - 指示_GrokBot.md
+  - preview.ps1
+  - 公開手順.md
