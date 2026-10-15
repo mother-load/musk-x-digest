@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
   <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
   <script>
     // 年齢確認が済んでいなければ、ページを表示する前に確認画面を出す準備をする
@@ -33,31 +35,29 @@
 
   <div class="notice">練習用サイトです ／ AI（Grok）による自動生成 ／ 非公式</div>
 
-  <header class="site-header">
-    <div class="wrap">
+  <div class="shell">
+    <header class="site-header">
       <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
       <nav class="site-nav">
-        <a href="{{ '/' | relative_url }}">レポート一覧</a>
+        <a href="{{ '/' | relative_url }}">レポート</a>
         <a href="{{ '/about/' | relative_url }}">このサイトについて</a>
         <button type="button" class="bgm-toggle" id="bgm-toggle" aria-pressed="false">BGM：オフ</button>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <main class="wrap">
-    {{ content }}
-  </main>
+    <main class="site-main">
+      {{ content }}
+    </main>
 
-  <footer class="site-footer">
-    <div class="wrap">
+    <footer class="site-footer">
       <ul class="disclaimer">
         <li>練習用サイトです。</li>
         <li>レポートは AI（Grok）による自動生成です。内容の正確性は保証しません。</li>
         <li>非公式。イーロン・マスク氏および X Corp. とは一切関係ありません。</li>
       </ul>
-      <p class="footer-links"><a href="{{ '/about/' | relative_url }}">このサイトについて・写真の出典</a></p>
-    </div>
-  </footer>
+      <p class="footer-links"><a href="{{ '/about/' | relative_url }}">このサイトについて・写真と BGM の出典</a></p>
+    </footer>
+  </div>
 
   <script src="{{ '/assets/bgm.js' | relative_url }}"></script>
   <script src="{{ '/assets/site.js' | relative_url }}"></script>
