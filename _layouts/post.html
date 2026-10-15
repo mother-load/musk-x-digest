@@ -8,7 +8,6 @@ layout: default
     <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y年%-m月%-d日 %H:%M" }}（日本時間）</time>
     <h1>{{ page.title }}</h1>
     <p class="ai-note">このレポートは AI（Grok）が自動で作成した要約です。正確な内容は元の投稿をご確認ください。</p>
-    <button type="button" class="speak-button" id="speak-button" hidden>▶ 読み上げ</button>
   </header>
 
   {% if main_topic %}

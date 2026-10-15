@@ -404,21 +404,6 @@ html:not(.age-pending) .trend-bar { animation: grow-up 1s var(--ease) 0.4s both;
   vertical-align: 1px;
 }
 
-/* ===== 読み上げボタン ===== */
-.speak-button {
-  margin-top: 12px;
-  font: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  background: transparent;
-  border: 1px solid var(--line);
-  border-radius: 9999px;
-  padding: 6px 16px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-.speak-button:hover { background: var(--surface); }
 
 /* ===== 前後のレポート ===== */
 .post-nav {
@@ -547,3 +532,8 @@ html:not(.age-pending) .trend-bar { animation: grow-up 1s var(--ease) 0.4s both;
   .age-pending .post-item { opacity: 1; }
   .age-pending .bar, .age-pending .trend-bar { transform: none; }
 }
+
+/* ===== サイト内のページ移動（BGM を止めずに本文だけ差し替える） ===== */
+.site-main { transition: opacity 0.15s ease; }
+.site-main:focus { outline: none; }
+.site-main.is-leaving { opacity: 0.4; }

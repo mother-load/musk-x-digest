@@ -1,4 +1,4 @@
-// features.js — カウントダウン・終了のお知らせ・NEW バッジ・絞り込みと検索・読み上げ
+// features.js — カウントダウン・終了のお知らせ・NEW バッジ・絞り込みと検索
 (function () {
   var HOUR = 3600 * 1000;
 
@@ -13,7 +13,7 @@
 
   function pad(n) { return (n < 10 ? '0' : '') + n; }
 
-  // ---- 1. 次回更新までのカウントダウン ----
+  // ---- 1. 次回更新までのカウントダウン（ヘッダーにあるので最初に1回だけ準備） ----
   var countdown = document.getElementById('countdown');
   function tick() {
     var now = new Date();
@@ -38,26 +38,29 @@
     }
   }
 
-  // ---- 10. 終了のお知らせ ----
-  var endNotice = document.getElementById('end-notice');
-  if (endNotice && new Date() >= END) endNotice.hidden = false;
+  // ---- ここから下は、ページの中身が替わるたびに実行する ----
+  function initPage() {
+    // 10. 終了のお知らせ
+    var endNotice = document.getElementById('end-notice');
+    if (endNotice && new Date() >= END) endNotice.hidden = false;
 
-  // ---- 2. NEW バッジ（3時間以内のレポート） ----
-  var now = Date.now();
-  Array.prototype.forEach.call(document.querySelectorAll('.post-item'), function (item) {
-    var time = item.querySelector('time');
-    var badge = item.querySelector('.new-badge');
-    if (!time || !badge) return;
-    var t = new Date(time.getAttribute('datetime')).getTime();
-    if (now - t < 3 * HOUR && t - now < 0.5 * HOUR) badge.hidden = false;
-  });
+    // 2. NEW バッジ（3時間以内のレポート）
+    var now = Date.now();
+    Array.prototype.forEach.call(document.querySelectorAll('.post-item'), function (item) {
+      var time = item.querySelector('time');
+      var badge = item.querySelector('.new-badge');
+      if (!time || !badge) return;
+      var t = new Date(time.getAttribute('datetime')).getTime();
+      if (now - t < 3 * HOUR && t - now < 0.5 * HOUR) badge.hidden = false;
+    });
 
-  // ---- 5・7. テーマで絞り込み・キーワード検索 ----
-  var list = document.getElementById('report-list');
-  var filter = document.getElementById('topic-filter');
-  var search = document.getElementById('report-search');
-  var result = document.getElementById('filter-result');
-  if (list && filter && search) {
+    // 5・7. テーマで絞り込み・キーワード検索
+    var list = document.getElementById('report-list');
+    var filter = document.getElementById('topic-filter');
+    var search = document.getElementById('report-search');
+    var result = document.getElementById('filter-result');
+    if (!list || !filter || !search) return;
+
     var items = Array.prototype.slice.call(list.querySelectorAll('.post-item'));
     var chips = Array.prototype.slice.call(filter.querySelectorAll('.chip'));
     var activeTopic = '';
@@ -96,52 +99,6 @@
     search.addEventListener('input', apply);
   }
 
-  // ---- 8. 読み上げ ----
-  var speakButton = document.getElementById('speak-button');
-  var body = document.getElementById('post-body');
-  if (speakButton && body && 'speechSynthesis' in window) {
-    var synth = window.speechSynthesis;
-    var speaking = false, bgmWasOn = false;
-    speakButton.hidden = false;
-
-    function setLabel() { speakButton.textContent = speaking ? '■ 読み上げを止める' : '▶ 読み上げ'; }
-
-    function finish() {
-      speaking = false;
-      setLabel();
-      if (bgmWasOn && window.SiteBGM) { window.SiteBGM.start(); if (window.SiteBGM.onchange) window.SiteBGM.onchange(); }
-    }
-
-    // 長い文章は途中で止まることがあるので、文ごとに分けて順番に読む
-    function chunks(text) {
-      var parts = text.replace(/https?:\/\/\S+/g, '').replace(/([。！？\n])/g, '$1\u0001').split('\u0001');
-      var out = [], buf = '';
-      parts.forEach(function (p) {
-        if ((buf + p).length > 120 && buf) { out.push(buf); buf = ''; }
-        buf += p;
-      });
-      if (buf.trim()) out.push(buf);
-      return out.filter(function (s) { return s.trim(); });
-    }
-
-    speakButton.addEventListener('click', function () {
-      if (speaking) { synth.cancel(); finish(); return; }
-      var title = document.querySelector('.post-header h1');
-      var texts = chunks((title ? title.textContent + '。\n' : '') + body.innerText);
-      var voice = synth.getVoices().filter(function (v) { return /^ja/i.test(v.lang); })[0];
-      bgmWasOn = !!(window.SiteBGM && window.SiteBGM.isPlaying());
-      if (bgmWasOn) { window.SiteBGM.stop(); if (window.SiteBGM.onchange) window.SiteBGM.onchange(); }
-      synth.cancel();
-      texts.forEach(function (t, i) {
-        var u = new SpeechSynthesisUtterance(t);
-        u.lang = 'ja-JP';
-        if (voice) u.voice = voice;
-        if (i === texts.length - 1) u.onend = function () { if (speaking) finish(); };
-        synth.speak(u);
-      });
-      speaking = true;
-      setLabel();
-    });
-    window.addEventListener('pagehide', function () { synth.cancel(); });
-  }
+  initPage();
+  document.addEventListener('page:load', initPage); // nav.js がページを差し替えたとき
 })();
