@@ -26,7 +26,14 @@ Web サイト作りの練習として作ったサイトです。メンターへ�
 ## 年齢確認と BGM について
 
 - 初めて訪れたときに出る年齢確認は、練習として仕組みを試しているものです。本人確認は行っていません。「いいえ」を選ぶと Wikipedia のイーロン・マスク氏の記事に移動します。
-- BGM は音声ファイルではなく、ブラウザの音の機能（Web Audio API）でその場で作って鳴らしています。曲は AI（Claude）がプログラムとして作成しました。ヘッダーの「BGM」ボタンでオン・オフを切り替えられます。
+- ヘッダーの「BGM」ボタンで、BGM のオン・オフを切り替えられます。
+
+## BGM の出典
+
+- 曲名：Synthwave House Loop
+- 作者：Fupi
+- ライセンス：[CC0 1.0（パブリックドメイン）](https://creativecommons.org/publicdomain/zero/1.0/deed.ja)
+- 出典：[OpenGameArt.org「Synthwave House Loop」](https://opengameart.org/content/synthwave-house-loop)
 
 ## 写真の出典
 

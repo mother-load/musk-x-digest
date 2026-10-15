@@ -16,6 +16,8 @@
     bgmButton.setAttribute('aria-pressed', on ? 'true' : 'false');
   }
 
+  window.SiteBGM.onchange = updateButton; // 曲を読み込めなかったときにボタンの表示を戻す
+
   function startBgm() { window.SiteBGM.start(); save('bgm', 'on'); updateButton(); }
   function stopBgm() { window.SiteBGM.stop(); save('bgm', 'off'); updateButton(); }
 
