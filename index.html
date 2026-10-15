@@ -16,6 +16,7 @@ layout: default
     出典：<a href="https://commons.wikimedia.org/wiki/File:Falcon_Heavy_Demo_Mission_%2840126461851%29.jpg">Wikimedia Commons</a>
   </p>
   <p class="lead">{{ site.description }}</p>
+  <p class="end-notice" id="end-notice" hidden>このサイトの更新は 2026年10月16日 20:00 の回で終了しました（全 {{ site.posts.size }} 回）。これまでのレポートは、このままご覧いただけます。</p>
 </section>
 
 {%- comment -%} ===== 全期間のまとめ（posts を書いたレポートだけを数える） ===== {%- endcomment -%}
@@ -60,6 +61,29 @@ layout: default
     </li>
     {% endfor %}
   </ul>
+
+  {%- comment -%} 回ごとの合計表示回数（古い順） {%- endcomment -%}
+  {%- assign max_total = 0 -%}
+  {%- for r in site.posts -%}
+    {%- assign sum = 0 -%}{%- for p in r.posts -%}{%- assign sum = sum | plus: p.views -%}{%- endfor -%}
+    {%- if sum > max_total -%}{%- assign max_total = sum -%}{%- endif -%}
+  {%- endfor -%}
+  {% if max_total > 0 %}
+  <h3 class="chart-title">回ごとの合計表示回数（概算）</h3>
+  <div class="trend-chart" role="img" aria-label="レポートの回ごとの合計表示回数の推移">
+    {% assign oldest_first = site.posts | reverse %}
+    {% for r in oldest_first %}
+    {%- if r.posts and r.posts.size > 0 -%}
+    {%- assign sum = 0 -%}{%- for p in r.posts -%}{%- assign sum = sum | plus: p.views -%}{%- endfor -%}
+    <a class="trend-col" href="{{ r.url | relative_url }}" title="{{ r.title }}">
+      <span class="trend-value">{% if sum > 0 %}{% include num.html n=sum %}{% else %}—{% endif %}</span>
+      <span class="trend-track"><span class="trend-bar" style="--h: {{ sum | times: 100 | divided_by: max_total }}%"></span></span>
+      <span class="trend-label">{{ r.date | date: "%-d日" }}<br>{{ r.date | date: "%-H時" }}</span>
+    </a>
+    {%- endif -%}
+    {% endfor %}
+  </div>
+  {% endif %}
 </section>
 {% endif %}
 
@@ -67,16 +91,28 @@ layout: default
   <h2 class="section-title">レポート</h2>
   {% if site.posts.size == 0 %}
     <p class="empty">まだレポートはありません。</p>
+  {% else %}
+  <div class="list-tools">
+    <input type="search" id="report-search" class="search-box" placeholder="キーワードで検索" aria-label="レポートをキーワードで検索">
+    <div class="topic-filter" id="topic-filter" role="group" aria-label="テーマで絞り込み">
+      <button type="button" class="chip is-active" data-topic="">すべて</button>
+      {% for t in site.data.topics %}<button type="button" class="chip" data-topic="{{ t.key }}">{{ t.label }}</button>{% endfor %}
+    </div>
+    <p class="filter-result" id="filter-result" hidden></p>
+  </div>
   {% endif %}
-  <ul>
+  <ul id="report-list">
     {% for post in site.posts %}
-    <li class="post-item">
+    {%- assign post_topics = "" -%}
+    {%- for p in post.posts -%}{%- assign post_topics = post_topics | append: p.topic | append: " " -%}{%- endfor -%}
+    <li class="post-item" data-topics="{{ post.topic }} {{ post_topics | strip }}" data-search="{{ post.title | escape }} {{ post.content | strip_html | strip_newlines | escape }}">
       <div class="avatar" aria-hidden="true">AI</div>
       <div class="post-main">
         <p class="post-meta">
           <span class="post-author">Grok による要約</span>
           <span class="post-dot">·</span>
           <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y年%-m月%-d日 %H:%M" }}</time>
+          <span class="new-badge" hidden>NEW</span>
         </p>
         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
         <p class="summary">{{ post.content | strip_html | strip_newlines | replace: "主な投稿", "" | strip | truncate: 110 }}</p>

@@ -6,7 +6,9 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#000000">
   <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-  <meta name="description" content="{{ site.description }}">
+  {% seo title=false %}
+  {% feed_meta %}
+  <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -33,7 +35,7 @@
     </div>
   </div>
 
-  <div class="notice">練習用サイトです ／ AI（Grok）による自動生成 ／ 非公式</div>
+  <div class="notice">練習用サイトです ／ AI（Grok）による自動生成 ／ 非公式<span class="countdown" id="countdown" hidden></span></div>
 
   <div class="shell">
     <header class="site-header">
@@ -55,11 +57,16 @@
         <li>レポートは AI（Grok）による自動生成です。内容の正確性は保証しません。</li>
         <li>非公式。イーロン・マスク氏および X Corp. とは一切関係ありません。</li>
       </ul>
-      <p class="footer-links"><a href="{{ '/about/' | relative_url }}">このサイトについて・写真と BGM の出典</a></p>
+      <p class="footer-links">
+        <a href="{{ '/about/' | relative_url }}">このサイトについて・写真と BGM の出典</a>
+        <span class="post-dot">·</span>
+        <a href="{{ '/feed.xml' | relative_url }}">RSS フィード</a>
+      </p>
     </footer>
   </div>
 
   <script src="{{ '/assets/bgm.js' | relative_url }}"></script>
   <script src="{{ '/assets/site.js' | relative_url }}"></script>
+  <script src="{{ '/assets/features.js' | relative_url }}"></script>
 </body>
 </html>

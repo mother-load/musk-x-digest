@@ -5,13 +5,30 @@ lang: ja
 locale: ja_JP
 timezone: Asia/Tokyo
 
-# GitHub Pages のURL（https://ユーザー名.github.io/musk-x-digest/）に合わせる
+# GitHub Pages のURL（https://mother-load.github.io/musk-x-digest/）
+url: "https://mother-load.github.io"
 baseurl: "/musk-x-digest"
-url: ""
 
 markdown: kramdown
 future: true  # 日付が少し先のレポートも表示する（公開のタイミングずれ対策）
 permalink: /:year/:month/:day/:title/
+
+# GitHub Pages で使える追加機能
+plugins:
+  - jekyll-seo-tag   # URL を貼ったときのリンクカード（OGP）
+  - jekyll-feed      # RSS フィード（/feed.xml）
+
+# リンクカードの設定
+twitter:
+  card: summary_large_image
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/img/falcon-heavy-launch.jpg
+
+feed:
+  posts_limit: 50
 
 # サイトに含めないファイル
 exclude:
@@ -19,5 +36,6 @@ exclude:
   - 進捗記録.md
   - 指示書_ClaudeCode.md
   - 指示_GrokBot.md
+  - 指示_GrokBot_追加.md
   - preview.ps1
   - 公開手順.md

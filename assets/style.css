@@ -31,6 +31,8 @@ a:hover { text-decoration: underline; }
 
 img { max-width: 100%; height: auto; display: block; }
 
+[hidden] { display: none !important; }
+
 /* ===== 上部のお知らせ帯 ===== */
 .notice {
   background: var(--surface);
@@ -303,6 +305,144 @@ html:not(.age-pending) .bar { animation: grow 1s var(--ease) 0.3s both; }
 }
 .reaction .bar-row { grid-template-columns: 3.5em 1fr 4.5em; }
 
+/* ===== カウントダウン・終了のお知らせ ===== */
+.countdown { font-variant-numeric: tabular-nums; }
+.countdown::before { content: "／"; margin: 0 6px; }
+.end-notice {
+  margin: 0 16px 16px;
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  color: var(--text);
+}
+
+/* ===== 回ごとの推移グラフ ===== */
+@keyframes grow-up {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+.trend-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin: 8px 16px 4px;
+  overflow-x: auto; /* 回数が増えたらこの中だけ横に動かせる */
+  padding-bottom: 4px;
+}
+.trend-col {
+  flex: 1 0 44px;
+  max-width: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.3;
+  text-align: center;
+}
+.trend-col:hover { text-decoration: none; color: var(--text); }
+.trend-value { color: var(--text); font-weight: 700; white-space: nowrap; }
+.trend-track { width: 100%; height: 120px; display: flex; align-items: flex-end; }
+.trend-bar {
+  display: block;
+  width: 100%;
+  height: var(--h);
+  min-height: 3px;
+  background: var(--accent);
+  border-radius: 6px 6px 2px 2px;
+  transform-origin: bottom center;
+}
+.trend-col:hover .trend-bar { background: var(--accent-hover); }
+html:not(.age-pending) .trend-bar { animation: grow-up 1s var(--ease) 0.4s both; }
+.age-pending .trend-bar { transform: scaleY(0); }
+
+/* ===== 検索・絞り込み ===== */
+.list-tools { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.search-box {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  padding: 8px 16px;
+  outline: none;
+}
+.search-box::placeholder { color: var(--muted); }
+.search-box:focus { border-color: var(--accent); background: var(--bg); }
+.topic-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  padding: 3px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.chip:hover { background: var(--surface); }
+.chip.is-active { background: var(--text); border-color: var(--text); color: #0f1419; }
+.filter-result { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+
+/* ===== NEW バッジ ===== */
+.new-badge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 9999px;
+  padding: 1px 8px;
+  vertical-align: 1px;
+}
+
+/* ===== 読み上げボタン ===== */
+.speak-button {
+  margin-top: 12px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.speak-button:hover { background: var(--surface); }
+
+/* ===== 前後のレポート ===== */
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.post-nav-link {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  transition: background-color 0.2s;
+}
+.post-nav-link:hover { background: var(--surface); text-decoration: none; }
+.post-nav-link.next { grid-column: 2; text-align: right; }
+.post-nav-dir { font-size: 12px; color: var(--muted); }
+.post-nav-title { font-weight: 700; font-size: 14px; line-height: 1.5; }
+
 /* ===== レポート本文 ===== */
 .post { padding: 16px 16px 32px; animation: fade-in 0.5s ease both; }
 .back { margin: 0 0 16px; font-size: 14px; }
@@ -405,5 +545,5 @@ html:not(.age-pending) .bar { animation: grow 1s var(--ease) 0.3s both; }
   .age-pending .hero-kicker,
   .age-pending .hero-title,
   .age-pending .post-item { opacity: 1; }
-  .age-pending .bar { transform: none; }
+  .age-pending .bar, .age-pending .trend-bar { transform: none; }
 }
