@@ -1,0 +1,42 @@
+# テーマの一覧（レポートの topic に書く値 → 表示名・写真・出典）
+# 「その他」は最後に置く（どれにも当てはまらない投稿はここに数える）
+- key: tesla
+  label: Tesla
+  image: /assets/img/topics/tesla.jpg
+  photo: Tesla Model 3
+  author: Carlquinn
+  license: CC BY-SA 4.0
+  license_url: https://creativecommons.org/licenses/by-sa/4.0/deed.ja
+  source_url: https://commons.wikimedia.org/wiki/File:Tesla_Model_3_parked,_front_driver_side.jpg
+- key: spacex
+  label: SpaceX
+  image: /assets/img/topics/spacex.jpg
+  photo: SpaceX Starship IFT-5 の打ち上げ
+  author: Steve Jurvetson
+  license: CC BY 2.0
+  license_url: https://creativecommons.org/licenses/by/2.0/deed.ja
+  source_url: https://commons.wikimedia.org/wiki/File:SpaceX_IFT-5_Launch_%2854063581561%29.jpg
+- key: ai
+  label: AI（xAI・Grok など）
+  image: /assets/img/topics/ai.jpg
+  photo: サーバー室
+  author: Victor Grigas
+  license: CC BY-SA 3.0
+  license_url: https://creativecommons.org/licenses/by-sa/3.0/deed.ja
+  source_url: https://commons.wikimedia.org/wiki/File:Wikimedia_Foundation_Servers-8055_35.jpg
+- key: politics
+  label: 政治・社会
+  image: /assets/img/topics/politics.jpg
+  photo: 米国議会議事堂
+  author: Architect of the Capitol
+  license: パブリックドメイン
+  license_url: https://commons.wikimedia.org/wiki/File:United_States_Capitol_west_front_edit2.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:United_States_Capitol_west_front_edit2.jpg
+- key: other
+  label: その他
+  image: /assets/img/topics/other.jpg
+  photo: アポロ17号から見た地球
+  author: NASA
+  license: パブリックドメイン
+  license_url: https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg
+  source_url: https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg

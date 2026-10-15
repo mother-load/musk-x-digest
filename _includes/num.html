@@ -1,0 +1,6 @@
+{%- comment -%} 大きな数を「1.2億」「4700万」のように短く表示する {%- endcomment -%}
+{%- assign n = include.n | plus: 0 -%}
+{%- if n >= 100000000 -%}{{ n | divided_by: 10000000 | divided_by: 10.0 }}億
+{%- elsif n >= 10000 -%}{{ n | divided_by: 10000 }}万
+{%- else -%}{{ n }}
+{%- endif -%}

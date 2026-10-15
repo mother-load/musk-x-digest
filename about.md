@@ -28,6 +28,14 @@ Web サイト作りの練習として作ったサイトです。メンターへ�
 - 初めて訪れたときに出る年齢確認は、練習として仕組みを試しているものです。本人確認は行っていません。「いいえ」を選ぶと Wikipedia のイーロン・マスク氏の記事に移動します。
 - ヘッダーの「BGM」ボタンで、BGM のオン・オフを切り替えられます。
 
+## レポートのイメージ写真の出典
+
+各レポートには、テーマ（Tesla・SpaceX など）に合わせたイメージ写真を表示しています。写真は投稿の内容そのものではなく、テーマを表すための参考写真です。
+
+{% for t in site.data.topics %}
+- **{{ t.label }}**：{{ t.photo }} ／ 作者：{{ t.author }} ／ ライセンス：[{{ t.license }}]({{ t.license_url }}) ／ 出典：[Wikimedia Commons]({{ t.source_url }})
+{% endfor %}
+
 ## BGM の出典
 
 - 曲名：Synthwave House Loop

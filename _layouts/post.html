@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+{%- assign main_topic = page.topic | default: page.posts.first.topic -%}
 <article class="post">
   <p class="back"><a href="{{ '/' | relative_url }}">← レポート一覧へ</a></p>
   <header class="post-header">
@@ -8,6 +9,46 @@ layout: default
     <h1>{{ page.title }}</h1>
     <p class="ai-note">このレポートは AI（Grok）が自動で作成した要約です。正確な内容は元の投稿をご確認ください。</p>
   </header>
+
+  {% if main_topic %}
+    {% include topic-photo.html key=main_topic class="topic-photo-wide" %}
+  {% endif %}
+
+  {% if page.posts and page.posts.size > 0 %}
+  {%- assign max_views = 0 -%}{%- assign max_likes = 0 -%}
+  {%- for p in page.posts -%}
+    {%- assign v = p.views | plus: 0 -%}{%- assign l = p.likes | plus: 0 -%}
+    {%- if v > max_views -%}{%- assign max_views = v -%}{%- endif -%}
+    {%- if l > max_likes -%}{%- assign max_likes = l -%}{%- endif -%}
+  {%- endfor -%}
+  <section class="reactions">
+    <h2>この回の反響</h2>
+    <p class="chart-note">表示回数・いいね数は、Grok が確認した時点のおおよその数です。</p>
+    <ol class="reaction-list">
+      {% for p in page.posts %}
+      {%- assign t = site.data.topics | where: "key", p.topic | first -%}
+      {%- assign v = p.views | plus: 0 -%}{%- assign l = p.likes | plus: 0 -%}
+      <li class="reaction">
+        <p class="reaction-head">
+          <span class="topic-badge">{% if t %}{{ t.label }}{% else %}その他{% endif %}</span>
+          {% if p.url %}<a href="{{ p.url }}">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}
+        </p>
+        <div class="bar-row">
+          <span class="bar-label">表示</span>
+          <span class="bar-track">{% if max_views > 0 and v > 0 %}<span class="bar" style="--w: {{ v | times: 100 | divided_by: max_views }}%"></span>{% endif %}</span>
+          <span class="bar-value">{% if v > 0 %}{% include num.html n=v %}{% else %}—{% endif %}</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">いいね</span>
+          <span class="bar-track">{% if max_likes > 0 and l > 0 %}<span class="bar bar-sub" style="--w: {{ l | times: 100 | divided_by: max_likes }}%"></span>{% endif %}</span>
+          <span class="bar-value">{% if l > 0 %}{% include num.html n=l %}{% else %}—{% endif %}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
   <div class="post-body">
     {{ content }}
   </div>

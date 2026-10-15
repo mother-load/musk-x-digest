@@ -1,0 +1,7 @@
+{%- comment -%} テーマの写真と出典（include.key にテーマ、include.class に追加のクラス） {%- endcomment -%}
+{%- assign t = site.data.topics | where: "key", include.key | first -%}
+{%- unless t -%}{%- assign t = site.data.topics | last -%}{%- endunless -%}
+<figure class="topic-photo {{ include.class }}">
+  <img src="{{ t.image | relative_url }}" alt="{{ t.photo }}（{{ t.label }}のイメージ写真）" loading="lazy">
+  <figcaption>イメージ写真：{{ t.photo }} ／ 作者：{{ t.author }} ／ <a href="{{ t.license_url }}">{{ t.license }}</a> ／ 出典：<a href="{{ t.source_url }}">Wikimedia Commons</a></figcaption>
+</figure>

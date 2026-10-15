@@ -18,6 +18,51 @@ layout: default
   <p class="lead">{{ site.description }}</p>
 </section>
 
+{%- comment -%} ===== 全期間のまとめ（posts を書いたレポートだけを数える） ===== {%- endcomment -%}
+{%- assign total_reports = 0 -%}{%- assign total_posts = 0 -%}{%- assign total_views = 0 -%}
+{%- for r in site.posts -%}
+  {%- if r.posts and r.posts.size > 0 -%}
+    {%- assign total_reports = total_reports | plus: 1 -%}
+    {%- assign total_posts = total_posts | plus: r.posts.size -%}
+    {%- for p in r.posts -%}{%- assign total_views = total_views | plus: p.views -%}{%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+{% if total_posts > 0 %}
+{%- comment -%} テーマごとの投稿数を数える（どれにも当てはまらないものは「その他」） {%- endcomment -%}
+{%- assign counts = "" -%}{%- assign named = 0 -%}{%- assign max_count = 0 -%}
+{%- for t in site.data.topics -%}
+  {%- assign c = 0 -%}
+  {%- if t.key == "other" -%}
+    {%- assign c = total_posts | minus: named -%}
+  {%- else -%}
+    {%- for r in site.posts -%}{%- for p in r.posts -%}{%- if p.topic == t.key -%}{%- assign c = c | plus: 1 -%}{%- endif -%}{%- endfor -%}{%- endfor -%}
+    {%- assign named = named | plus: c -%}
+  {%- endif -%}
+  {%- if c > max_count -%}{%- assign max_count = c -%}{%- endif -%}
+  {%- assign counts = counts | append: c | append: "," -%}
+{%- endfor -%}
+{%- assign counts = counts | split: "," -%}
+<section class="summary-panel">
+  <h2 class="section-title">全期間のまとめ</h2>
+  <div class="stats">
+    <div class="stat"><span class="stat-value">{{ total_reports }}</span><span class="stat-label">レポート</span></div>
+    <div class="stat"><span class="stat-value">{{ total_posts }}</span><span class="stat-label">取り上げた投稿</span></div>
+    <div class="stat"><span class="stat-value">{% if total_views > 0 %}{% include num.html n=total_views %}{% else %}—{% endif %}</span><span class="stat-label">合計表示回数（概算）</span></div>
+  </div>
+  <h3 class="chart-title">テーマ別の投稿数</h3>
+  <ul class="topic-chart">
+    {% for t in site.data.topics %}
+    {%- assign c = counts[forloop.index0] | plus: 0 -%}
+    <li class="bar-row">
+      <span class="bar-label">{{ t.label }}</span>
+      <span class="bar-track">{% if c > 0 %}<span class="bar" style="--w: {{ c | times: 100 | divided_by: max_count }}%"></span>{% endif %}</span>
+      <span class="bar-value">{{ c }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
 <section class="post-list">
   <h2 class="section-title">レポート</h2>
   {% if site.posts.size == 0 %}
@@ -35,6 +80,8 @@ layout: default
         </p>
         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
         <p class="summary">{{ post.content | strip_html | strip_newlines | replace: "主な投稿", "" | strip | truncate: 110 }}</p>
+        {%- assign post_topic = post.topic | default: post.posts.first.topic -%}
+        {% if post_topic %}{% include topic-photo.html key=post_topic class="topic-photo-card" %}{% endif %}
       </div>
     </li>
     {% endfor %}
