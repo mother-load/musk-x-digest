@@ -38,8 +38,52 @@
     }
   }
 
+  // 本文中の「https://〜」という文字を、押せるリンクに変える
+  var URL_PATTERN = /https?:\/\/[^\s<>"'「」（）()]+/g;
+  function linkify(root) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        if (node.parentNode.closest('a, code, pre')) return NodeFilter.FILTER_REJECT;
+        URL_PATTERN.lastIndex = 0;
+        return URL_PATTERN.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var text = node.nodeValue, frag = document.createDocumentFragment(), last = 0, m;
+      URL_PATTERN.lastIndex = 0;
+      while ((m = URL_PATTERN.exec(text))) {
+        var url = m[0].replace(/[。、.,!?！？]+$/, ''); // 文末の句読点はリンクに含めない
+        frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var a = document.createElement('a');
+        a.href = url;
+        a.textContent = url;
+        frag.appendChild(a);
+        last = m.index + url.length;
+      }
+      frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  // 外部サイトへのリンクは新しいタブで開く（このサイトの BGM を止めないため）
+  function openExternalInNewTab(root) {
+    Array.prototype.forEach.call(root.querySelectorAll('a[href]'), function (a) {
+      if (a.origin && a.origin !== location.origin) {
+        a.target = '_blank';
+        a.rel = 'noopener';
+      }
+    });
+  }
+
   // ---- ここから下は、ページの中身が替わるたびに実行する ----
   function initPage() {
+    var body = document.querySelector('.post-body');
+    if (body) linkify(body);
+    var main = document.querySelector('.site-main');
+    if (main) openExternalInNewTab(main);
+
     // 10. 終了のお知らせ
     var endNotice = document.getElementById('end-notice');
     if (endNotice && new Date() >= END) endNotice.hidden = false;
