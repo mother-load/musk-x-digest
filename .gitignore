@@ -1,0 +1,8 @@
+# 手元だけで使うファイル（GitHub には送らない）
+.claude/
+_preview/
+preview.ps1
+指示書_ClaudeCode.md
+指示_GrokBot.md
+進捗記録.md
+公開手順.md

@@ -9,8 +9,28 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+  <script>
+    // 年齢確認が済んでいなければ、ページを表示する前に確認画面を出す準備をする
+    (function () {
+      var ok = false;
+      try { ok = localStorage.getItem('ageConfirmed') === 'yes'; } catch (e) {}
+      if (!ok) document.documentElement.classList.add('age-pending');
+    })();
+  </script>
 </head>
 <body>
+  <div class="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-gate-title">
+    <div class="age-gate-box">
+      <p class="age-gate-site">{{ site.title }}</p>
+      <h2 id="age-gate-title">あなたは18歳以上ですか？</h2>
+      <p class="age-gate-note">練習として年齢確認の仕組みを試しています。「はい」を選ぶとサイトが表示され、BGM が流れます。</p>
+      <div class="age-gate-buttons">
+        <button type="button" class="btn btn-primary" id="age-yes">はい</button>
+        <button type="button" class="btn" id="age-no">いいえ</button>
+      </div>
+    </div>
+  </div>
+
   <div class="notice">練習用サイトです ／ AI（Grok）による自動生成 ／ 非公式</div>
 
   <header class="site-header">
@@ -19,6 +39,7 @@
       <nav class="site-nav">
         <a href="{{ '/' | relative_url }}">レポート一覧</a>
         <a href="{{ '/about/' | relative_url }}">このサイトについて</a>
+        <button type="button" class="bgm-toggle" id="bgm-toggle" aria-pressed="false">BGM：オフ</button>
       </nav>
     </div>
   </header>
@@ -37,5 +58,8 @@
       <p class="footer-links"><a href="{{ '/about/' | relative_url }}">このサイトについて・写真の出典</a></p>
     </div>
   </footer>
+
+  <script src="{{ '/assets/bgm.js' | relative_url }}"></script>
+  <script src="{{ '/assets/site.js' | relative_url }}"></script>
 </body>
 </html>

@@ -65,7 +65,7 @@ img { max-width: 100%; height: auto; display: block; }
   text-decoration: none;
   line-height: 1.4;
 }
-.site-nav { display: flex; gap: 16px; font-size: 14px; }
+.site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: 14px; }
 .site-nav a { color: var(--muted); text-decoration: none; }
 .site-nav a:hover { color: var(--accent); }
 
@@ -137,6 +137,58 @@ figcaption {
 }
 .disclaimer { margin: 0 0 8px; padding-left: 1.2em; }
 .footer-links { margin: 0; }
+
+/* ===== BGM ボタン ===== */
+.bgm-toggle {
+  font: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0 8px;
+  cursor: pointer;
+}
+.bgm-toggle[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+
+/* ===== 年齢確認 ===== */
+.age-gate { display: none; }
+.age-pending body { overflow: hidden; }
+.age-pending .age-gate {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--bg);
+}
+.age-gate-box {
+  width: 100%;
+  max-width: 420px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  padding: 28px 24px;
+  text-align: center;
+}
+.age-gate-site { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+.age-gate-box h2 { margin: 0 0 12px; font-size: 22px; }
+.age-gate-note { margin: 0 0 20px; font-size: 13px; color: var(--muted); text-align: left; }
+.age-gate-buttons { display: flex; gap: 12px; justify-content: center; }
+.btn {
+  font: inherit;
+  font-weight: 500;
+  min-width: 112px;
+  padding: 8px 20px;
+  border: 1px solid var(--text);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--text);
+  cursor: pointer;
+}
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 /* ===== スマホ ===== */
 @media (max-width: 600px) {
